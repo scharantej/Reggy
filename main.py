@@ -9,7 +9,7 @@ app = Flask(__name__)
 # Define the home page route
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('index.html')
 
 # Define the registration route
 @app.route('/register', methods=['GET', 'POST'])
@@ -52,14 +52,16 @@ def send_confirmation_email(email):
     # Create the email message
     message = MIMEMultipart()
     message['Subject'] = 'Confirm Your Attendance'
-    message['From'] = 'noreply@example.com'
+    message['From'] = 'sender@example.com'
     message['To'] = email
     body = 'Thank you for registering for the event. Please click the link below to confirm your attendance.\n\n[link]'
     message.attach(MIMEText(body, 'plain'))
 
     # Send the email
-    server = smtplib.SMTP('localhost', 25)
-    server.sendmail('noreply@example.com', email, message.as_string())
+    server = smtplib.SMTP('smtp.example.com', 587)
+    server.starttls()
+    server.login('sender@example.com', 'password')
+    server.sendmail('sender@example.com', email, message.as_string())
     server.quit()
 
 # Run the application
@@ -77,7 +79,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('index.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -108,13 +110,15 @@ def send_confirmation_email(email):
 
     message = MIMEMultipart()
     message['Subject'] = 'Confirm Your Attendance'
-    message['From'] = 'noreply@example.com'
+    message['From'] = 'sender@example.com'
     message['To'] = email
     body = 'Thank you for registering for the event. Please click the link below to confirm your attendance.\n\n[link]'
     message.attach(MIMEText(body, 'plain'))
 
-    server = smtplib.SMTP('localhost', 25)
-    server.sendmail('noreply@example.com', email, message.as_string())
+    server = smtplib.SMTP('smtp.example.com', 587)
+    server.starttls()
+    server.login('sender@example.com', 'password')
+    server.sendmail('sender@example.com', email, message.as_string())
     server.quit()
 
 if __name__ == '__main__':
